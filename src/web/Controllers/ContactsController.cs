@@ -4,11 +4,13 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using web.Models;
 
 namespace web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ContactsController : ControllerBase
     {
         private readonly ILogger<ContactsController> _logger;
@@ -21,18 +23,29 @@ namespace web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Entity> Get()
+        public IEnumerable<ContactRowModel> Get()
         {
             var fetchxml =
                 $@"<fetch version='1.0' output-format='xml-platform' mapping='logical'>
                         <entity name='contact'>
-                        <all-attributes />
+                        <attribute name='fullname' />
+                        <attribute name='emailaddress1' />
+                        <attribute name='parentcustomerid' />
+                        <attribute name='telephone1' />
+                        <order attribute='fullname' />
                         </entity>
                     </fetch>";
 
             var contactResponse = _orgService.RetrieveMultiple(new FetchExpression(fetchxml));
 
-            return contactResponse.Entities;
+            return contactResponse.Entities.Select(e => new ContactRowModel()
+            {
+                Id = e.Id,
+                FullName = e.GetAttributeValue<string>("fullname"),
+                Email = e.GetAttributeValue<string>("emailaddress1"),
+                CompanyName = e.GetAttributeValue<EntityReference>("parentcustomerid")?.Name,
+                BusinessPhone = e.GetAttributeValue<string>("telephone1")
+            });
         }
 
 
