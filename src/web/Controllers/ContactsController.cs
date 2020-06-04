@@ -5,6 +5,8 @@ using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using web.Commands;
+using web.Extensions;
 using web.Models;
 
 namespace web.Controllers
@@ -15,7 +17,6 @@ namespace web.Controllers
     {
         private readonly ILogger<ContactsController> _logger;
         private readonly IOrganizationService _orgService;
-
         public ContactsController(ILogger<ContactsController> logger, IOrganizationService orgService)
         {
             _logger = logger;
@@ -38,23 +39,31 @@ namespace web.Controllers
 
             var contactResponse = _orgService.RetrieveMultiple(new FetchExpression(fetchxml));
 
-            return contactResponse.Entities.Select(e => new ContactRowModel()
-            {
-                Id = e.Id,
-                FullName = e.GetAttributeValue<string>("fullname"),
-                Email = e.GetAttributeValue<string>("emailaddress1"),
-                CompanyName = e.GetAttributeValue<EntityReference>("parentcustomerid")?.Name,
-                BusinessPhone = e.GetAttributeValue<string>("telephone1")
-            });
+            return contactResponse.Entities.Select(e => e.ToContactRowModel());
         }
 
 
         [HttpGet("{id}")]
-        public string Get(Guid id)
+        public ContactDetailsModel Get(Guid id)
         {
-            var contactResponse = _orgService.Retrieve("contact", id, new ColumnSet(true));
+            var contactResponse = _orgService.Retrieve("contact", id, new ColumnSet(new string[] { "firstname", "lastname", "emailaddress1", "telephone1" }));
 
-            return contactResponse.GetAttributeValue<string>("fullname");
+            return contactResponse.ToContactDetailsModel();
+        }
+
+        [HttpPut]
+        public GenericResult SaveNewContact([FromBody] ContactDetailsModel model)
+        {
+            var cmd = new SaveContactCommand(_orgService);
+            return cmd.Save(model);
+        }
+
+        [HttpPost("{id}")]
+        public GenericResult SaveNewContact(Guid id, [FromBody] ContactDetailsModel model)
+        {
+            var cmd = new SaveContactCommand(_orgService);
+            model.Id = id;
+            return cmd.Save(model);
         }
     }
 }

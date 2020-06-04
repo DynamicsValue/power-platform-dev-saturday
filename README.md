@@ -1,9 +1,18 @@
 # Power Platform Developer Saturday with FakeXrmEasy
 ----------------------------------------------------
 
-This is the sample repo for Power Platform Developer Saturday (365portal.org)
+This is the sample repo for Power Platform Developer Saturday session about What's new in FakeXrmEasy.
 
-This sample project demonstrates how to use Microsoft's new CdsServiceClient nuget package along with FakeXrmEasy to unit test the backend of an aspnet core application that talks to CDS (Common Data Service)
+This sample project demonstrates how to use Microsoft's new CdsServiceClient nuget package along with FakeXrmEasy to unit test the backend of an aspnet core application that talks to CDS (Common Data Service).
+
+However the new nuget package along with FakeXrmEasy on .net core opens up endless possibilities of testing a bunch of different client applications:
+
+- .net core console apps
+- aspnet core
+- azure functions (.net core)
+- etc
+
+Plus the ability that those applications could be easily containerised and run in a Kubernetes cluster for instance.
 
 ## Layout
 

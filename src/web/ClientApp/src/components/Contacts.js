@@ -14,13 +14,17 @@ export class Contacts extends Component {
 
   static renderContactsTable(contacts) {
     return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
+      <div>
+        <a className="btn btn-primary" href={`/contact-details`}>Add New..</a>
+        <br /><br />
+        <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
             <th>Full Name</th>
             <th>Email</th>
             <th>Company Name</th>
             <th>Business Phone</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -30,10 +34,15 @@ export class Contacts extends Component {
               <td>{contact.email}</td>
               <td>{contact.companyName}</td>
               <td>{contact.businessPhone}</td>
+              <td><a className="btn btn-primary" href={`/contact-details/${contact.id}`}>View / Edit</a></td>
             </tr>
           )}
         </tbody>
       </table>
+      <br /><br />
+      <a className="btn btn-primary" href={`/contact-details`}>Add New..</a>
+      </div>
+      
     );
   }
 
