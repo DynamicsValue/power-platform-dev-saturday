@@ -76,8 +76,8 @@ export class ContactDetails extends Component {
   }
 
   renderContactForm(contact) {
-    let errorMessage = this.state.errorMessage !== '' ? 
-    (<div class="alert alert-danger" role="alert">
+    let errorMessage = this.state.errorMessage && this.state.errorMessage !== '' ? 
+    (<div className="alert alert-danger" role="alert">
         There was an error when saving this record: {this.state.errorMessage}
     </div>) : <div></div>;
 
