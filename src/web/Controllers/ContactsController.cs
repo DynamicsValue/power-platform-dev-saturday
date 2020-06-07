@@ -59,7 +59,7 @@ namespace web.Controllers
         }
 
         [HttpPost("{id}")]
-        public GenericResult SaveNewContact(Guid id, [FromBody] ContactDetailsModel model)
+        public GenericResult UpdateContact(Guid id, [FromBody] ContactDetailsModel model)
         {
             var cmd = new SaveContactCommand(_orgService);
             model.Id = id;
