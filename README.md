@@ -3,6 +3,8 @@
 
 This is the sample repo for Power Platform Developer Saturday session about What's new in FakeXrmEasy.
 
+NOTE: You won't be able to build this project (yet) since v2 is not yet public, but can you use it get an idea of what's coming along with the slides at the root of this repo and [the video of today's session at the Power Platform Developer event](https://www.pscp.tv/w/1ynJOqEmvmXKR).
+
 This sample project demonstrates how to use Microsoft's new CdsServiceClient nuget package along with FakeXrmEasy to unit test the backend of an aspnet core application that talks to CDS (Common Data Service).
 
 It's based on [Colin's CdsWeb sample](https://github.com/CdsWeb-app/). This sample just adds a unit test project and a react frontend to showcase some basic unit tests of CRUD operations as demo of what's coming in FakeXrmEasy v2.
